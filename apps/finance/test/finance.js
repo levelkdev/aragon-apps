@@ -43,6 +43,12 @@ contract('Finance App', accounts => {
         assert.equal(await app.currentPeriodId(), 0, 'current period should be 0')
     })
 
+    it('fails on initializing with no vault', async () => {
+        app = await Finance.new()
+
+        return assertRevert(() => app.initialize(0, periodDuration))
+    })
+
     it('fails on reinitialization', async () => {
         return assertRevert(async () => {
             await app.initialize(vault.address, periodDuration)
